@@ -6,6 +6,7 @@ from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 from bot.helper.ext_utils.database import DatabaseHelper
 
+
 def authorize(update, context):
     reply_message = None
     message_ = None
@@ -55,6 +56,7 @@ def authorize(update, context):
                 msg = 'Authorization granted'
     sendMessage(msg, context.bot, update)
 
+
 def unauthorize(update, context):
     reply_message = None
     message_ = None
@@ -103,17 +105,20 @@ def unauthorize(update, context):
                 file.write(f'{i}\n')
     sendMessage(msg, context.bot, update)
 
+
 def auth_chats(update, context):
     users = ''
     for user in AUTHORIZED_CHATS:
         users += f"{user}\n"
     users = users if users != '' else "None"
-    sendMessage(f'<b><u>Authorized Chats</u></b>\n<code>{users}</code>\n', context.bot, update)
+    sendMessage(
+        f'<b><u>Authorized Chats</u></b>\n<code>{users}</code>\n', context.bot, update)
+
 
 authorize_handler = CommandHandler(command=BotCommands.AuthorizeCommand, callback=authorize,
-                                    filters=CustomFilters.owner_filter, run_async=True)
+                                   filters=CustomFilters.owner_filter, run_async=True)
 unauthorize_handler = CommandHandler(command=BotCommands.UnauthorizeCommand, callback=unauthorize,
-                                    filters=CustomFilters.owner_filter, run_async=True)
+                                     filters=CustomFilters.owner_filter, run_async=True)
 auth_handler = CommandHandler(BotCommands.UsersCommand, auth_chats,
                               filters=CustomFilters.owner_filter, run_async=True)
 dispatcher.add_handler(authorize_handler)

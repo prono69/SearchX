@@ -6,16 +6,20 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import *
 
+
 def start(update, context):
     if CustomFilters.authorized_user(update) or CustomFilters.authorized_chat(update):
         if update.message.chat.type == "private":
             sendMessage(f"Access granted", context.bot, update)
         else:
             sendMessage(f"I'm alive :)", context.bot, update)
-        LOGGER.info('Granted: {} [{}]'.format(update.message.from_user.first_name, update.message.from_user.id))
+        LOGGER.info('Granted: {} [{}]'.format(
+            update.message.from_user.first_name, update.message.from_user.id))
     else:
         sendMessage(f"Access denied", context.bot, update)
-        LOGGER.info('Denied: {} [{}]'.format(update.message.from_user.first_name, update.message.from_user.id))
+        LOGGER.info('Denied: {} [{}]'.format(
+            update.message.from_user.first_name, update.message.from_user.id))
+
 
 def bot_help(update, context):
     help_string = f'''
@@ -55,11 +59,14 @@ For <i>file</i> results only:
 '''
     sendMessage(help_string, context.bot, update)
 
+
 def log(update, context):
     send_log_file(context.bot, update)
 
+
 def main():
-    start_handler = CommandHandler(BotCommands.StartCommand, start, run_async=True)
+    start_handler = CommandHandler(
+        BotCommands.StartCommand, start, run_async=True)
     help_handler = CommandHandler(BotCommands.HelpCommand, bot_help,
                                   filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
     log_handler = CommandHandler(BotCommands.LogCommand, log,
@@ -72,5 +79,6 @@ def main():
     updater.start_polling()
     LOGGER.info("Bot started")
     updater.idle()
+
 
 main()

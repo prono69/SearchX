@@ -10,9 +10,10 @@ from bot import APPDRIVE_EMAIL, APPDRIVE_PASS, GDTOT_CRYPT
 from bot.helper.ext_utils.exceptions import DDLException
 
 account = {
-    'email': APPDRIVE_EMAIL, 
+    'email': APPDRIVE_EMAIL,
     'passwd': APPDRIVE_PASS
 }
+
 
 def account_login(client, url, email, password):
     data = {
@@ -20,6 +21,7 @@ def account_login(client, url, email, password):
         'password': password
     }
     client.post(f'https://{urlparse(url).netloc}/login', data=data)
+
 
 def gen_payload(data, boundary=f'{"-"*6}_'):
     data_string = ''
@@ -29,6 +31,7 @@ def gen_payload(data, boundary=f'{"-"*6}_'):
     data_string += f'{boundary}--\r\n'
     return data_string
 
+
 def parse_info(data):
     info = re.findall(r'>(.*?)<\/li>', data)
     info_parsed = {}
@@ -36,6 +39,7 @@ def parse_info(data):
         kv = [s.strip() for s in item.split(':', maxsplit=1)]
         info_parsed[kv[0].lower()] = kv[1]
     return info_parsed
+
 
 def appdrive(url: str) -> str:
     client = requests.Session()
@@ -62,9 +66,11 @@ def appdrive(url: str) -> str:
         data['action'] = 'direct'
     while data['type'] <= 3:
         try:
-            response = client.post(url, data=gen_payload(data), headers=headers).json()
+            response = client.post(url, data=gen_payload(
+                data), headers=headers).json()
             break
-        except: data['type'] += 1
+        except:
+            data['type'] += 1
     if 'url' in response:
         info_parsed['gdrive_link'] = response['url']
     elif 'error' in response and response['error']:
@@ -72,12 +78,14 @@ def appdrive(url: str) -> str:
         info_parsed['error_message'] = response['message']
     if urlparse(url).netloc == 'driveapp.in' and not info_parsed['error']:
         res = client.get(info_parsed['gdrive_link'])
-        drive_link = etree.HTML(res.content).xpath("//a[contains(@class,'btn')]/@href")[0]
+        drive_link = etree.HTML(res.content).xpath(
+            "//a[contains(@class,'btn')]/@href")[0]
         info_parsed['gdrive_link'] = drive_link
     if not info_parsed['error']:
         return info_parsed
     else:
         raise DDLException(f"{info_parsed['error_message']}")
+
 
 def gdtot(url: str) -> str:
     client = requests.Session()

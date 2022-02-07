@@ -8,7 +8,8 @@ credentials = None
 __G_DRIVE_TOKEN_FILE = "token.json"
 __OAUTH_SCOPE = ["https://www.googleapis.com/auth/drive"]
 if os.path.exists(__G_DRIVE_TOKEN_FILE):
-    credentials = Credentials.from_authorized_user_file(__G_DRIVE_TOKEN_FILE, __OAUTH_SCOPE)
+    credentials = Credentials.from_authorized_user_file(
+        __G_DRIVE_TOKEN_FILE, __OAUTH_SCOPE)
     if not credentials or not credentials.valid:
         if credentials and credentials.expired and credentials.refresh_token:
             credentials.refresh(Request())

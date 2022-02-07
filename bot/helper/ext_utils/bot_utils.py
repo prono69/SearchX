@@ -3,6 +3,7 @@ import threading
 
 SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
+
 def get_readable_file_size(size_in_bytes) -> str:
     if size_in_bytes is None:
         return '0B'
@@ -15,16 +16,20 @@ def get_readable_file_size(size_in_bytes) -> str:
     except IndexError:
         return 'File too large'
 
+
 def is_gdrive_link(url: str):
     return "drive.google.com" in url
+
 
 def is_gdtot_link(url: str):
     url = re.match(r'https?://(?:\S*\.)?(?:gdtot)\.\S+', url)
     return bool(url)
 
+
 def is_appdrive_link(url: str):
     url = re.match(r'https?://(?:\S*\.)?(?:appdrive|driveapp)\.in/\S+', url)
     return bool(url)
+
 
 def new_thread(fn):
     def wrapper(*args, **kwargs):

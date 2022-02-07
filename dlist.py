@@ -1,18 +1,18 @@
 import os
 import re
 
-print("\n" \
-      "Instructions\n" \
-      "------------\n" \
-      "Drive Name -> Choose a name for the drive\n" \
-      "Drive ID   -> ID of the drive (Use 'root' for main drive)\n" \
+print("\n"
+      "Instructions\n"
+      "------------\n"
+      "Drive Name -> Choose a name for the drive\n"
+      "Drive ID   -> ID of the drive (Use 'root' for main drive)\n"
       "Index URL  -> Index link for the drive (Optional)")
 msg = ''
 if os.path.exists('drive_list'):
     with open('drive_list', 'r+') as f:
         lines = f.read()
     if not re.match(r'^\s*$', lines):
-        print("\nList of Drives" \
+        print("\nList of Drives"
               "\n--------------")
         print(lines)
         while 1:
@@ -27,7 +27,7 @@ if os.path.exists('drive_list'):
 num = int(input("\nTotal number of drives : "))
 count = 1
 while count <= num:
-    print(f"\nDRIVE - {count}\n" \
+    print(f"\nDRIVE - {count}\n"
           f"----------")
     name = input("Drive Name : ")
     id = input("Drive ID   : ")

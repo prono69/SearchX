@@ -3,6 +3,7 @@ from telegram.ext import MessageFilter
 
 from bot import AUTHORIZED_CHATS, OWNER_ID
 
+
 class CustomFilters:
     class _OwnerFilter(MessageFilter):
         def filter(self, message):

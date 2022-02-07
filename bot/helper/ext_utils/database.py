@@ -2,6 +2,7 @@ from pymongo import MongoClient
 
 from bot import AUTHORIZED_CHATS, DATABASE_URL
 
+
 class DatabaseHelper:
     def __init__(self):
         self.mongodb = MongoClient(host=DATABASE_URL)["SearchX"]
@@ -22,6 +23,7 @@ class DatabaseHelper:
         users = self.get_users()
         for user in users:
             AUTHORIZED_CHATS.add(user['user_id'])
+
 
 if DATABASE_URL is not None:
     db = DatabaseHelper()

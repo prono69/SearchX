@@ -13,4 +13,5 @@ class _BotCommands:
         self.LogCommand = 'log'
         self.HelpCommand = 'help'
 
+
 BotCommands = _BotCommands()

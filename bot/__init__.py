@@ -18,13 +18,16 @@ if os.path.exists('log.txt'):
         f.truncate(0)
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    handlers=[logging.FileHandler('log.txt'), logging.StreamHandler()],
+                    handlers=[logging.FileHandler(
+                        'log.txt'), logging.StreamHandler()],
                     level=logging.INFO)
 
 LOGGER = logging.getLogger(__name__)
 
+
 def get_config(name: str):
     return os.environ[name]
+
 
 try:
     CONFIG_ENV_URL = get_config('CONFIG_ENV_URL')
@@ -73,7 +76,7 @@ try:
         LOGGER.error("DRIVE_TOKEN var is missing")
         exit(1)
     with open('token.json', 'wt') as f:
-        f.write(get_config('DRIVE_TOKEN').replace("\n",""))
+        f.write(get_config('DRIVE_TOKEN').replace("\n", ""))
 except:
     LOGGER.error("Failed to create token.json file")
     exit(1)
@@ -137,7 +140,8 @@ try:
                 f.write(res.content)
                 f.close()
         else:
-            LOGGER.error(f"Failed to load accounts.zip file [{res.status_code}]")
+            LOGGER.error(
+                f"Failed to load accounts.zip file [{res.status_code}]")
             raise KeyError
         subprocess.run(["unzip", "-q", "-o", "accounts.zip"])
         os.remove("accounts.zip")
